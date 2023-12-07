@@ -1,123 +1,76 @@
 import * as React from "react"
-import { Link } from "gatsby"
-import { StaticImage } from "gatsby-plugin-image"
 
+import { StaticImage } from "gatsby-plugin-image"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
-import * as styles from "../components/index.module.css"
+import { Link } from "gatsby"
 
-const links = [
-  {
-    text: "Tutorial",
-    url: "https://www.gatsbyjs.com/docs/tutorial",
-    description:
-      "A great place to get started if you're new to web development. Designed to guide you through setting up your first Gatsby site.",
-  },
-  {
-    text: "Examples",
-    url: "https://github.com/gatsbyjs/gatsby/tree/master/examples",
-    description:
-      "A collection of websites ranging from very basic to complex/complete that illustrate how to accomplish specific tasks within your Gatsby sites.",
-  },
-  {
-    text: "Plugin Library",
-    url: "https://www.gatsbyjs.com/plugins",
-    description:
-      "Learn how to add functionality and customize your Gatsby site or app with thousands of plugins built by our amazing developer community.",
-  },
-  {
-    text: "Build and Host",
-    url: "https://www.gatsbyjs.com/cloud",
-    description:
-      "Now you’re ready to show the world! Give your Gatsby site superpowers: Build and host on Gatsby Cloud. Get started for free!",
-  },
+const speechs = [
+  '',
+  "Hi, my name is Victor, and I'm a web developer",
+  "Wanna know more about my work?",
+  "Click the arrow bellow and take a look"
 ]
 
-const samplePageLinks = [
-  {
-    text: "Page 2",
-    url: "page-2",
-    badge: false,
-    description:
-      "A simple example of linking to another page within a Gatsby site",
-  },
-  { text: "TypeScript", url: "using-typescript" },
-  { text: "Server Side Rendering", url: "using-ssr" },
-  { text: "Deferred Static Generation", url: "using-dsg" },
-]
+const IndexPage = () => {
+  const [animating, setAnimate] = React.useState(false)
+  const [speechStep, setSpeechStep] = React.useState(0)
 
-const moreLinks = [
-  { text: "Join us on Discord", url: "https://gatsby.dev/discord" },
-  {
-    text: "Documentation",
-    url: "https://gatsbyjs.com/docs/",
-  },
-  {
-    text: "Starters",
-    url: "https://gatsbyjs.com/starters/",
-  },
-  {
-    text: "Showcase",
-    url: "https://gatsbyjs.com/showcase/",
-  },
-  {
-    text: "Contributing",
-    url: "https://www.gatsbyjs.com/contributing/",
-  },
-  { text: "Issues", url: "https://github.com/gatsbyjs/gatsby/issues" },
-]
+  React.useEffect(() => {
+    const handleSpeecStep = () => {
+      if(speechStep === speechs.length - 1) return false
+      setSpeechStep(e => e + 1)
+    }
+    let interval;
+    if(speechStep !== speechs.length) {
+      interval = setInterval(handleSpeecStep, 2000);
+    }
 
-const utmParameters = `?utm_source=starter&utm_medium=start-page&utm_campaign=default-starter`
+    return () => {
+      if(interval) return clearInterval(interval)
+      return false
+    }; 
+  }, [speechStep])
 
-const IndexPage = () => (
-  <Layout>
-    <Seo title="Home" />
-    <div className={styles.textCenter}>
-      <StaticImage
-        src="../images/example.png"
-        loading="eager"
-        width={64}
-        quality={95}
-        formats={["auto", "webp", "avif"]}
-        alt=""
-        style={{ marginBottom: `var(--space-3)` }}
-      />
-      <h1>
-        Welcome to <b>Gatsby!</b>
-      </h1>
-      <p className={styles.intro}>
-        <b>Example pages:</b>{" "}
-        {samplePageLinks.map((link, i) => (
-          <React.Fragment key={link.url}>
-            <Link to={link.url}>{link.text}</Link>
-            {i !== samplePageLinks.length - 1 && <> · </>}
-          </React.Fragment>
-        ))}
-        <br />
-        Edit <code>src/pages/index.js</code> to update this page.
-      </p>
-    </div>
-    <ul className={styles.list}>
-      {links.map(link => (
-        <li key={link.url} className={styles.listItem}>
-          <a
-            className={styles.listItemLink}
-            href={`${link.url}${utmParameters}`}
-          >
-            {link.text} ↗
-          </a>
-          <p className={styles.listItemDescription}>{link.description}</p>
-        </li>
-      ))}
-    </ul>
-    {moreLinks.map((link, i) => (
-      <React.Fragment key={link.url}>
-        <a href={`${link.url}${utmParameters}`}>{link.text}</a>
-        {i !== moreLinks.length - 1 && <> · </>}
-      </React.Fragment>
-    ))}
-  </Layout>
-)
+  return (
+    <Layout>
+      <Seo title="Victor Tineo - A very good web developer" />
+      <section className="max-w-5xl mx-auto flex items-start flex-wrap">
+        <StaticImage
+          src="../images/me-pixel-art.png"
+          alt="me"
+          placeholder="none"
+          className="max-h-screen w-56 mb-auto"
+        />
+        <div className="relative">
+          <p 
+            key={speechStep} 
+            className="font-semibold opacity-0 animate-home-balloon-text absolute font-mono text-lg z-10 left-1/2 top-1/2 w-3/5 translate-x-[calc(-50%_+_2rem)] -translate-y-[calc(50%_-_1rem)]">
+            {speechs[speechStep] ?? speechs[-1]}
+          </p>
+          <StaticImage
+            src="../images/bubbles/bubble-1.png"
+            alt=""
+            placeholder="none"
+            className="animate-home-balloon opacity-0"
+            />       
+        </div>
+        <div className="relative self-stretch flex-col justify-end flex">
+          <Link to="/info">
+            <StaticImage
+              src="../images/arrow.png"
+              alt=""
+              placeholder="none"
+              className={`animate-bounce ${speechStep === speechs.length - 1 ? '' : 'hidden'} bottom-0`}
+            />
+          </Link>
+        </div>
+        
+
+      </section>
+    </Layout>
+  )
+}
 
 /**
  * Head export to define metadata for the page

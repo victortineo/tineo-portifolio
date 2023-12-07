@@ -1,0 +1,11 @@
+.project_card__container {
+}
+
+.project_card__container div {
+  max-height: 100%;
+}
+
+.project_card__container img {
+  object-position: top;
+  object-fit: contain !important;
+}

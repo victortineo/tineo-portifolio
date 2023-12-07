@@ -1,0 +1,26 @@
+
+.burguer-menu {
+  width: 40px;
+}
+
+.burguer-menu:before,
+.burguer-menu:after,
+.burguer-menu div {
+  background: #3a0041;
+  content: "";
+  display: block;
+  height: 6px;
+  border-radius: 3px;
+  margin: 7px 0;
+  transition: 0.5s;
+}
+
+.burguer-menu.active:before {
+  transform: translateY(12px) rotate(135deg);
+}
+.burguer-menu.active:after {
+  transform: translateY(-12px) rotate(-135deg);
+}
+.burguer-menu.active div {
+  transform: scale(0);
+}

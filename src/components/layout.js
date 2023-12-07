@@ -11,8 +11,10 @@ import { useStaticQuery, graphql } from "gatsby"
 
 import Header from "./header"
 import "./layout.css"
+import { Sidebar } from "./sidebar/sidebar"
 
 const Layout = ({ children }) => {
+  const [showSidebar, setShowSidebar] = React.useState(false)
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
       site {
@@ -25,15 +27,10 @@ const Layout = ({ children }) => {
 
   return (
     <>
-      <Header siteTitle={data.site.siteMetadata?.title || `Title`} />
-      <div
-        style={{
-          margin: `0 auto`,
-          maxWidth: `var(--size-content)`,
-          padding: `var(--size-gutter)`,
-        }}
-      >
-        <main>{children}</main>
+      <Sidebar open={showSidebar} />
+      <div className="bg-mainYellow h-screen flex flex-col">
+        <Header siteTitle={data.site.siteMetadata?.title || `Title`} onClick={() => setShowSidebar(e => !e)} isOpen={showSidebar} />
+        <main className="flex-1 overflow-y-auto max-h-screen">{children}</main>
         <footer
           style={{
             marginTop: `var(--space-5)`,

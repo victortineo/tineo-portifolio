@@ -1,0 +1,15 @@
+.icon {
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.icon-linkedin {
+  background-image: url(../../images/linkedin-icon.svg)
+}
+
+.icon-github {
+  background-image: url(../../images/github-icon.svg)
+}
